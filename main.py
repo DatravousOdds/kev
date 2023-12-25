@@ -21,7 +21,7 @@ def processData(url):
     # links = soup.find_all('a')
     product_name = soup.find_all('div', class_="product-card__title")
     product_price = soup.find_all("div",class_="product-price us__styling is--current-price css-11s12ax")
-    print("{:<40} {:<10}".format("Product Name", "Product Prices"))
+    print("{:<40} {:<10}".format("Product Name", "Product Price"))
     
     for name, price in zip(product_name, product_price):
       print("{:<40} {:<10}".format(name.text.strip(), price.text.strip()))
