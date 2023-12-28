@@ -9,20 +9,22 @@ import json
 
 testUrl = "https://www.nike.com/"
 
-chrome_options = Options()
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument("--disable-dev-shm-usage")
+# chrome_options = Options()
+# chrome_options.add_argument('--no-sandbox')
+# chrome_options.add_argument("--disable-dev-shm-usage")
 
-driver = webdriver.Chrome(options=chrome_options)
-driver.get(testUrl)
+# driver = webdriver.Chrome()
+# driver.get(testUrl)
 
 
 # TODO: Need to build a function that will navigate to product page.
-def naviagteToProductPage(url):
-  try:
-    driver.get(url)
-  except Exception as e:
-    print(f'Error occur when navigatin to the page: {e}')
+# def navigateToProduct(self,url):
+#   try:
+#       driver.get(url)
+#       element = driver.f
+#       element.click()
+#   except Exception as e:
+#     print(f'Error occur when navigatin to the page: {e}')
 
 
 # TODO: Filter out shoes that don't match the preferences.
@@ -35,6 +37,7 @@ class Bot:
   def __init__(self):
     self.trackedUrl = []
     self.vistedUrls = []
+    self.driver = webdriver.Chrome()
 
   def processData(self, url):
     try:
@@ -66,6 +69,18 @@ class Bot:
   def urls(self, url):
     self.trackedUrl.append(url)
     self.vistedUrls.append(url)
+    print("Tracked URLs:", self.trackedUrl)
+    
+  def getTrackedUrls(self):
+    return self.trackedUrl
+  
+  def navigateToProduct(self,url):
+    try:
+      self.driver.get(url)
+      element = self.driver.find_element_by_xpath('//*[@id="gen-nav-commerce-header-v2"]/div[3]/header/div[1]/div[2]/nav/div[2]/div/ul/li[2]/a')
+      element.click()
+    except Exception as e:
+      print(f'Error occur when navigatin to the page: {e}')
 
 
 class User:
@@ -85,11 +100,13 @@ class User:
   def interact(self):
     while True:
       self.greet()
-      choice = input("Choose your option:\n")
+      choice = input("Choose your option:")
       if choice == "1":
         url = testUrl  # Gets the URL input from the user
         self.bot.urls(url)
-        naviagteToProductPage(url)
+        # print(self.bot.getTrackedUrls())
+        self.bot.navigateToProduct(url)
+        
       elif choice == "2":
         urls = input("Enter url (separated by space, ):")
         urls = urls.split(" ")
